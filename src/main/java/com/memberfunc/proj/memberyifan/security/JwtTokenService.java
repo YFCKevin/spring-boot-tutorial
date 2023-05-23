@@ -16,6 +16,7 @@ public class JwtTokenService {
                 .of(new Date())
                 .map(v -> Jwts
                         .builder()
+                        // Payload
                         .setIssuer("spring-boot-tutorial")
                         // JWT所面向的用戶
                         .setSubject(subject)
@@ -25,12 +26,14 @@ public class JwtTokenService {
                         .setNotBefore(v)
                         .setIssuedAt(v)
                         .setId(uuid)
+                        // 簽名 Signature
                         .signWith(Keys.hmacShaKeyFor(key.getBytes()), SignatureAlgorithm.HS512)
                         .compact()
                 )
                 .get();
     }
 
+    // 提取subject (username)
     public String retrieveSubject(String token){
         return Jwts
                 .parserBuilder()
