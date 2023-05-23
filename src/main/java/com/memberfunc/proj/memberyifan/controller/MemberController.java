@@ -6,25 +6,24 @@ import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import com.memberfunc.proj.memberyifan.dto.MemberLoginRequestDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.memberfunc.proj.memberyifan.entity.Member;
 import com.memberfunc.proj.memberyifan.service.MemberService;
 
-@Controller
-@RequestMapping("/member")
+@Tag(name = "Member")
+@RestController
+@RequestMapping("/api/v1.0")
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
@@ -45,10 +44,11 @@ public class MemberController {
 		}
 	}
 
-	@PostMapping("/login")
+	@Operation(summary = "登入")
+	@PostMapping("/members:login")
 	public ResponseEntity<?> login(@RequestBody Member member, BindingResult bindingResult,
-			@CookieValue(name = "memId", required = false) String memId,
-			@CookieValue(name = "memNickname", required = false) String memNickname) {
+								   @CookieValue(name = "memId", required = false) String memId,
+								   @CookieValue(name = "memNickname", required = false) String memNickname) {
 		List<String> errors = null;
 		if (bindingResult.hasErrors()) {
 			errors = bindingResult.getFieldErrors().stream().map(FieldError::getDefaultMessage)
