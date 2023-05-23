@@ -9,6 +9,7 @@ public class JwtTokenServiceTest {
     @Autowired
     private JwtTokenService jwtTokenService;
 
+    @BeforeEach
     public void setUp() {
         jwtTokenService = new JwtTokenService();
     }
